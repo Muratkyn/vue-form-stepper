@@ -1,12 +1,15 @@
 <template>
   <div class="stepper-wrapper">
     <div class="stepper-container" v-for="step in stepsConfig" :key="step.id">
-      <h3
-        :class="{ isCompleted: step.id <= store.currentPage }"
-        class="stepper-number"
-      >
-        {{ step.id }}
-      </h3>
+      <div class="stepper-details__wrapper">
+        <h3
+          :class="{ isCompleted: step.id <= store.currentPage }"
+          class="stepper-number"
+        >
+          {{ step.id }}
+        </h3>
+        <label>{{ step.name }}</label>
+      </div>
       <hr
         :class="{ isCompleted: step.id < store.currentPage }"
         v-if="step.id < 5"
@@ -22,7 +25,13 @@
     >
       Back
     </button>
-    <button @click="onClickNext" class="button-item">Next</button>
+    <button
+      @click="onClickNext"
+      class="button-item"
+      :disabled="store.productTypology === ''"
+    >
+      Next
+    </button>
   </div>
 </template>
 
@@ -50,11 +59,11 @@ const steps = [
   },
   {
     id: 4,
-    name: "Date and time",
+    name: "Time",
   },
   {
     id: 5,
-    name: "User data",
+    name: "Data",
   },
 ];
 
@@ -62,6 +71,7 @@ const stepsConfig = computed(() => {
   return steps.map((step) => {
     return {
       id: step.id,
+      name: step.name,
       isCompleted: step.id < store.currentPage,
     };
   });
@@ -88,7 +98,7 @@ const onClickNext = () => {
 
 <style scoped>
 .stepper-wrapper {
-  width: 80%;
+  width: 60%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -98,25 +108,41 @@ const onClickNext = () => {
 
 .stepper-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: first baseline;
   margin: auto;
   padding-top: 3rem;
+}
+
+.stepper-details__wrapper {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
 }
 
 .stepper-number {
   text-align: center;
   align-items: center;
   border-radius: 50%;
-  padding: 0.18rem;
   width: 1.4rem;
   background-color: white;
   border: #bdbaba solid;
 }
 
+.stepper-detail {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 70%;
+}
+
 hr {
-  width: 280px;
+  width: 180px;
   margin-left: 1.5rem;
+  margin-right: 1.5rem;
 }
 
 .isCompleted {
@@ -152,6 +178,13 @@ hr {
   width: 10%;
   cursor: pointer;
   box-sizing: border-box;
+}
+
+.button-item:disabled {
+  background-color: #cccccc;
+  border: #666666;
+  color: #666666;
+  cursor: not-allowed;
 }
 
 .buttonEnd {
