@@ -2,27 +2,7 @@
   <StepperModule>
     <template #default>
       <div class="firstStep-wrapper">
-        <div class="firstBox">
-          <h2 class="hello-title">Hello! <span class="login">(login)</span></h2>
-          <p>
-            Select a store where to make an appointment. You can change it to
-            <br />
-            view the availability of the departments or services of your
-            interest.
-          </p>
-          <div>
-            <label for="store">
-              <strong> Store: </strong>
-              <span class="required"> - required</span></label
-            >
-            <select v-model="store.selectedStore" class="store-field">
-              <option disabled selected value>-- Select Your Store --</option>
-              <option v-for="entity in sortedEntities" :value="entity.id">
-                {{ entity.publicName }}
-              </option>
-            </select>
-          </div>
-        </div>
+        <HelloPart />
         <div class="secondBox">
           <h2>How can we help you with your project?</h2>
           <p>Select what you are requesting an appointment for</p>
@@ -52,7 +32,7 @@
 import { computed } from "vue";
 import { onMounted } from "vue";
 import StepperModule from "@/components/shared/StepperModel.vue";
-import { entities } from "@/constants/index";
+import HelloPart from "@/components/shared/HelloPart.vue";
 import { useAppStore } from "@/stores/store";
 import router from "@/router";
 
@@ -62,10 +42,6 @@ onMounted(() => {
   store.currentPage = 1;
   store.purchaseProducts = "";
   store.renovationService = "0";
-});
-
-const sortedEntities = computed(() => {
-  return [...entities].sort((a, b) => a.publicName.localeCompare(b.publicName));
 });
 
 const purchaseProducts = () => {
