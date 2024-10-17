@@ -1,6 +1,6 @@
 <template>
   <div class="stepper-wrapper">
-    <div class="stepper-container" v-for="step in stepsConfig" :key="step.id">
+    <div class="stepper-container" v-for="step in store.stepsConfig" :key="step.id">
       <div class="stepper-details__wrapper">
         <h3
           :class="{ isCompleted: step.id <= store.currentPage }"
@@ -44,38 +44,6 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 
 const store = useAppStore();
-const steps = [
-  {
-    id: 1,
-    name: "Project",
-  },
-  {
-    id: 2,
-    name: "Type",
-  },
-  {
-    id: 3,
-    name: "Details",
-  },
-  {
-    id: 4,
-    name: "Time",
-  },
-  {
-    id: 5,
-    name: "Data",
-  },
-];
-
-const stepsConfig = computed(() => {
-  return steps.map((step) => {
-    return {
-      id: step.id,
-      name: step.name,
-      isCompleted: step.id < store.currentPage,
-    };
-  });
-});
 
 const onClickBack = () => {
   if (route.path === "/reparto") {
